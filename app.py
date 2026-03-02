@@ -329,22 +329,19 @@ def main() -> None:
     )
 
     # ── Load data & run backtest ──────────────────────────────────────────────
-    data_placeholder = st.empty()
-    with data_placeholder.container():
-        with st.spinner(f"Fetching {ticker} historical data …"):
-            try:
-                df = _load_data(ticker)
-            except Exception as exc:
-                st.error(f"Could not load data for **{ticker}**: {exc}")
-                st.stop()
-
-        if df.empty:
-            st.error(f"No hourly data found for **{ticker}**. Try a different symbol.")
+    with st.spinner(f"Fetching {ticker} historical data …"):
+        try:
+            df = _load_data(ticker)
+        except Exception as exc:
+            st.error(f"Could not load data for **{ticker}**: {exc}")
             st.stop()
 
-        with st.spinner(f"Training HMM & running backtest for {ticker} … (first run takes ~30s)"):
-            result = _run_backtest(df, ticker)
-    data_placeholder.empty()
+    if df.empty:
+        st.error(f"No hourly data found for **{ticker}**. Try a different symbol.")
+        st.stop()
+
+    with st.spinner(f"Training HMM & running backtest for {ticker} … (first run takes ~30s)"):
+        result = _run_backtest(df, ticker)
 
     # ── Signal banner ─────────────────────────────────────────────────────────
     st.markdown("---")
