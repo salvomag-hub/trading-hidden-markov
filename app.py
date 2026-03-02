@@ -48,16 +48,6 @@ REGIME_TEXT_COLOR = {
 }
 
 # ── Streamlit caching helpers ─────────────────────────────────────────────────
-POPULAR_TICKERS = [
-    # Crypto
-    "BTC-USD", "ETH-USD", "SOL-USD", "BNB-USD",
-    # US Large-cap
-    "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "TSLA", "META",
-    # ETFs
-    "SPY", "QQQ", "GLD",
-]
-
-
 @st.cache_data(ttl=3600, show_spinner=False)
 def _load_data(ticker: str) -> pd.DataFrame:
     return fetch_ohlcv_data(ticker=ticker)
@@ -317,18 +307,18 @@ def main() -> None:
     # ── Sidebar: ticker selector ──────────────────────────────────────────────
     with st.sidebar:
         st.markdown("## Asset Selection")
-        preset = st.selectbox("Popular tickers", POPULAR_TICKERS, index=0)
-        custom = st.text_input(
-            "Or enter any Yahoo Finance ticker",
-            placeholder="e.g. GOLD, ^GSPC, EURUSD=X …",
-        )
-        ticker = custom.strip().upper() if custom.strip() else preset
+        ticker = st.text_input(
+            "Yahoo Finance ticker",
+            value="BTC-USD",
+            placeholder="e.g. AAPL, BTC-USD, EURUSD=X …",
+        ).strip().upper()
 
-        st.markdown("---")
+        if not ticker:
+            ticker = "BTC-USD"
+
         st.caption(
-            "Accepts any symbol understood by Yahoo Finance: "
-            "stocks, ETFs, crypto (`BTC-USD`), forex (`EURUSD=X`), "
-            "indices (`^GSPC`), futures (`GC=F`), …"
+            "Stocks, ETFs, crypto (`BTC-USD`), forex (`EURUSD=X`), "
+            "indices (`^GSPC`), futures (`GC=F`)"
         )
 
     st.markdown(

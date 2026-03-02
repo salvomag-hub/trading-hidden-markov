@@ -162,7 +162,7 @@ def build_hmm_features(df: pd.DataFrame) -> pd.DataFrame:
 def train_hmm(
     features_df: pd.DataFrame,
     n_components: int = N_STATES,
-    n_trials: int = 3,
+    n_trials: int = 5,
 ) -> tuple:
     """
     Fit a GaussianHMM with *n_trials* random seeds; keep the best log-likelihood.
@@ -181,8 +181,8 @@ def train_hmm(
             model = hmm.GaussianHMM(
                 n_components=n_components,
                 covariance_type="full",
-                n_iter=100,
-                tol=1e-3,
+                n_iter=200,
+                tol=1e-4,
                 random_state=seed,
             )
             model.fit(X)

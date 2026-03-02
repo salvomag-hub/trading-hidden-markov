@@ -47,7 +47,7 @@ def _fetch_chunk(
         return pd.DataFrame()
 
 
-def fetch_ohlcv_data(ticker: str = "BTC-USD", days: int = 365) -> pd.DataFrame:
+def fetch_ohlcv_data(ticker: str = "BTC-USD", days: int = 730) -> pd.DataFrame:
     """
     Return a cleaned hourly OHLCV DataFrame for *ticker* covering the last
     *days* calendar days.
