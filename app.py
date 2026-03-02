@@ -64,8 +64,8 @@ def _load_data(ticker: str) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
-def _run_backtest(_df: pd.DataFrame, ticker: str):   # ticker keeps cache key unique
-    return run_backtest(_df)
+def _run_backtest(df: pd.DataFrame, ticker: str):
+    return run_backtest(df)
 
 
 # ── Chart builders ─────────────────────────────────────────────────────────────
@@ -365,7 +365,7 @@ def main() -> None:
     c1.markdown(_kpi_card("Current Signal",    result.current_signal,  sig_color), unsafe_allow_html=True)
     c2.markdown(_kpi_card("Detected Regime",   result.current_regime,  reg_color), unsafe_allow_html=True)
     c3.markdown(_kpi_card("Confirmations",     f"{last_votes}/8",      "#ffa726"), unsafe_allow_html=True)
-    c4.markdown(_kpi_card("BTC Price",         f"${last_price:,.0f}",  "#42a5f5"), unsafe_allow_html=True)
+    c4.markdown(_kpi_card(f"{ticker} Price",    f"${last_price:,.2f}",  "#42a5f5"), unsafe_allow_html=True)
 
     # ── Performance metrics ───────────────────────────────────────────────────
     st.markdown("---")
